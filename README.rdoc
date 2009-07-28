@@ -1,0 +1,7 @@
+= distributed_logreader
+
+Description goes here.
+
+== Copyright
+
+Copyright (c) 2009 Gary Tsang. See LICENSE for details.
