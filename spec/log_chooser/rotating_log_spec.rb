@@ -4,22 +4,21 @@ require 'fileutils'
 
 describe "RotatingLog" do
   before(:all) do
-    FileUtils.cp(File.join(File.dirname(__FILE__), '..', 'fixtures', 'test_file'), File.join(File.dirname(__FILE__), '..', 'fixtures', 'test_file2'))
-    @file_path = File.join(File.dirname(__FILE__), '..', 'fixtures', 'test_file2')
-    @base_backup_dir = File.join(File.dirname(__FILE__), '..', 'fixtures', 'temp_backup_dir')
-    time = Time.now
-    @backup_dir = File.join([@base_backup_dir, time.year.to_s, time.month.to_s, time.day.to_s])
-    @archiver = DateDir.new(@base_backup_dir)
+    @chooser = RotatingLog.new
   end
     
-  describe "backup" do
-    it "should move file into Y/M/D backup directory" do
-      @archiver.backup(@file_path)
-      File.exist?(@backup_dir).should == true
+  describe "file_to_process" do
+    it "should pick the oldest file for logs in copytruncate format (file)" do
+      @chooser.file_to_process(File.join(File.dirname(__FILE__), '..', 'fixtures', 'copytruncate', 'test')).should == File.join(File.dirname(__FILE__), '..', 'fixtures', 'copytruncate', 'test.1')      
+    end
+    
+    it "should pick the oldest file in timestamp suffix log format (dirname)" do
+      @chooser.file_to_process(File.join(File.dirname(__FILE__), '..', 'fixtures', 'logrotate')).should == File.join(File.dirname(__FILE__), '..', 'fixtures', 'logrotate', 'test-20090101')
+    end
+    
+    it "should pick the oldest file ignoring symlinks pointing to files already in dir" do
+      @chooser.file_to_process(File.join(File.dirname(__FILE__), '..', 'fixtures', 'symlink')).should == File.join(File.dirname(__FILE__), '..', 'fixtures', 'symlink', 'test')
     end
   end
-  
-  after(:all) do
-    FileUtils.rm_r(@base_backup_dir)
-  end
+
 end

@@ -1,13 +1,13 @@
 class RotatingLog < LogChooser
-  attr_accessor :log_rotation_type
-  
-  def initialize(type = 'copytruncate')
-    self.log_rotation_type = type
-  end
   
   def file_to_process(file_or_dir)
-    directory = File.dirname(file_or_dir)
-    basename = File.basename(file_or_dir)
+    if File.directory?(file_or_dir)
+      directory = file_or_dir
+      basename = '/'
+    else
+      directory = File.dirname(file_or_dir)
+      basename = File.basename(file_or_dir)
+    end    
     oldest_logfile(directory, basename)
   end
 
@@ -21,6 +21,6 @@ protected
 
   # returns true if filename is a symlink and its referring to a file already inside the current directory
   def symlink_file_in_dir?(filename)
-    File.symlink?(directory) && File.dirname(File.readlink(filename)) == File.dirname(filename)
+    File.symlink?(filename) && File.dirname(File.readlink(filename)) == File.dirname(filename)
   end
 end
