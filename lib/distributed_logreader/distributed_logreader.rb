@@ -1,7 +1,9 @@
 class DistributedLogReader
-  attr_accessor :logger
+  attr_accessor :logger, :log_chooser, :log_archiver
 
-  def initialize(file_or_dir, backup_dir = nil, tarball = true)
+  def initialize(log_chooser, log_archiver)
+    @log_chooser = log_chooser
+    @log_archiver = log_archiver
     @file_name = RotatingLog.file_to_process(file_or_dir)
     @tarball = false
     @base_backup_dir = backup_dir
@@ -58,8 +60,7 @@ class DistributedLogReader
       # rmdir(@backup_dir)
     end
   end
-
-
+  
 protected
 
   def load_saved_state(log_file)

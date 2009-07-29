@@ -1,8 +1,8 @@
 require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 
-describe "LogChooser" do
+describe "DLogReader::Selector" do
   before(:all) do
-    @chooser = LogChooser.new
+    @chooser = DLogReader::Selector.new
   end
 
   describe "file_to_process" do

@@ -1,8 +1,8 @@
 require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 
-describe "LogArchiver" do
+describe "DLogReader::LogArchiver" do
   before(:all) do
-    @archiver = LogArchiver.new
+    @archiver = DLogReader::Archiver.new
   end
 
   describe "archive" do

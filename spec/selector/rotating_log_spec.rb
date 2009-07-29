@@ -1,10 +1,10 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
-require 'distributed_logreader/log_chooser/rotating_log'
+require 'distributed_logreader/selector/rotating_log'
 require 'fileutils'
 
-describe "RotatingLog" do
+describe "DLogReader::RotatingLog" do
   before(:all) do
-    @chooser = RotatingLog.new
+    @chooser = DLogReader::RotatingLog.new
   end
     
   describe "file_to_process" do
