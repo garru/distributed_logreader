@@ -3,7 +3,7 @@ require 'distributed_logreader/distributer/simple_thread_pool'
 
 describe "DLogReader::SimpleThreadPool" do
   before(:all) do
-    @thread_pool = DLogReader::SimpleThreadPool.new(lambda{|x| x}, 10)
+    @thread_pool = DLogReader::SimpleThreadPool.new(lambda{|x| puts x}, 10)
   end
   
   describe "process" do
@@ -11,6 +11,7 @@ describe "DLogReader::SimpleThreadPool" do
       100.times do |x|
         @thread_pool.process(x.to_s)
       end
+      @thread_pool.join
     end
   end
 end

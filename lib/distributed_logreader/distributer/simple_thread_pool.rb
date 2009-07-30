@@ -17,6 +17,11 @@ module DLogReader
       self.queue << line
     end
     
+    def join
+      while(queue.size > 0)
+        sleep 0.1
+      end
+    end
 protected    
     def create_thread
       Thread.new do

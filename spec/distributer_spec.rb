@@ -1,4 +1,4 @@
-require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
+require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 require 'distributed_logreader/distributer'
 
 describe "DLogReader::Distributer" do
