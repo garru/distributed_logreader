@@ -4,7 +4,7 @@ module DLogReader
   class SimpleThreadPool
     attr_accessor :num_threads, :worker, :thread_pool, :queue
     
-    def initialize(worker, num_threads)
+    def initialize(worker, num_threads = 10)
       self.worker = worker
       self.num_threads = num_threads
       self.queue = Queue.new
@@ -22,6 +22,7 @@ module DLogReader
         sleep 0.1
       end
     end
+    
 protected    
     def create_thread
       Thread.new do

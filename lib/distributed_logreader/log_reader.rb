@@ -1,11 +1,11 @@
 require 'digest/md5'
 module DLogReader
   class LogReader
-    attr_accessor :statefile, :filename
+    attr_accessor :filename
+    attr_writer :statefile
+    
     def initialize(filename, &b)
       self.filename = filename
-      log_basename = File.basename(filename)
-      self.statefile = File.join(File.dirname(filename), "log_state_#{log_basename}")
       @b = b
     end
   
@@ -22,7 +22,13 @@ module DLogReader
     end
 
   protected
-
+    def statefile
+      @statefile ||= begin
+        log_basename = File.basename(filename)
+        File.join("/tmp", "log_state_#{log_basename}")
+      end
+    end
+    
     def load_saved_state(log_filehandle)
       return unless File.exists?(statefile) && !(state = File.read(statefile)).nil?
       pos, l_digest = Marshal.load(state)
