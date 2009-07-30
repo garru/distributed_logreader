@@ -33,12 +33,21 @@ describe "DLogReader::LogReader" do
       #lets read to the end of file and write state
       lambda{@state_writer.run}.should_not raise_error
       fh = File.open(@test_cp, 'a')
-      fh.write("\n" + @test_line)
+      fh.write(@test_line)
+      fh.close
       lambda{@state_reader.run}.should_not raise_error
     end
     
     it 'should detect if log is different from last and to start from beg of file' do
-
+      lambda{@state_writer.run}.should_not raise_error
+      fh = File.open(@test_cp, 'w')
+      fh.write(@test_line)
+      fh.close
+      lambda{@state_reader.run}.should_not raise_error
+      fh = File.open(@test_cp, 'w')
+      fh.write('')
+      fh.close
+      lambda{@state_reader.run}.should_not raise_error
     end
   end
   

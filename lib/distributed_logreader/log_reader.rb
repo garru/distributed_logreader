@@ -1,3 +1,4 @@
+require 'digest/md5'
 module DLogReader
   class LogReader
     attr_accessor :statefile, :filename
@@ -24,17 +25,24 @@ module DLogReader
 
     def load_saved_state(log_filehandle)
       return unless File.exists?(statefile) && !(state = File.read(statefile)).nil?
-      pos, last_file_size = Marshal.load(state)
-      # Check for log rotation
-      return if File.size(filename) < last_file_size
-      log_filehandle.pos = pos
+      pos, l_digest = Marshal.load(state)
+      return if File.size(log_filehandle) < pos
+      log_filehandle.pos = pos if digest(log_filehandle, pos) == l_digest
     end
 
     def save_state(log_filehandle)
       File.open(statefile, "w") do |f|
-        f.write(Marshal.dump([log_filehandle.pos, File.size(log_filehandle)]))
+        f.write(Marshal.dump([log_filehandle.pos, digest(log_filehandle, log_filehandle.pos)]))
       end
     end
 
+    def digest(log_filehandle, position)
+      log_filehandle.pos = 0
+      read_length = [position, 50].min
+      l = log_filehandle.read(read_length)
+      f_digest = Digest::MD5.hexdigest(l)
+      log_filehandle.pos = position
+      f_digest
+    end
   end
 end
