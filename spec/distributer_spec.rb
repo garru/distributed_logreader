@@ -8,7 +8,6 @@ describe "DLogReader::Distributer" do
   
   describe "process" do
     it "should raise NotImplementedError" do
-      lambda{ @distributer.process('dummy_line') }.should raise_error(NotImplementedError)
     end
   end
 end

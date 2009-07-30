@@ -20,14 +20,15 @@ module DLogReader
       save_state(f)
       f.flock(File::LOCK_UN)
     end
-
-  protected
+    
     def statefile
       @statefile ||= begin
         log_basename = File.basename(filename)
         File.join("/tmp", "log_state_#{log_basename}")
       end
     end
+
+  protected
     
     def load_saved_state(log_filehandle)
       return unless File.exists?(statefile) && !(state = File.read(statefile)).nil?
