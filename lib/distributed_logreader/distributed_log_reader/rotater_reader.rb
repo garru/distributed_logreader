@@ -15,7 +15,7 @@ module DLogReader
     end
     
     def post_process
-      self.archiver.backup(log_file)
+      self.archiver.archive(log_file)
     end
   end
 end

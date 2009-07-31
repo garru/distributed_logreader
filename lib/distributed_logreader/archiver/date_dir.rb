@@ -8,7 +8,7 @@ module DLogReader
       self.base_backup_dir = backup_dir
     end
   
-    def backup(file)
+    def archive(file)
       mv(file, backup_dir) unless base_backup_dir.nil?
         
     end

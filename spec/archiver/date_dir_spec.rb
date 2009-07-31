@@ -14,7 +14,7 @@ describe "DLogReader::DateDir" do
     
   describe "backup" do
     it "should move file into Y/M/D backup directory" do
-      @archiver.backup(@file_path)
+      @archiver.archive(@file_path)
       File.exist?(@backup_dir).should == true
     end
   end

@@ -1,6 +1,7 @@
-= distributed_logreader
+= Distributed Log Reader
 
-Description goes here.
+is a log reader that allows for parallel processing.  It is highly configurable
+allowing you to choose different parallel distribution and archiving strategies.
 
 == Copyright
 
