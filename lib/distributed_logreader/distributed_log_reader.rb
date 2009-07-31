@@ -5,23 +5,35 @@ require File.join(File.dirname(__FILE__), 'log_reader')
 
 module DLogReader
   class DistributedLogReader
-    attr_accessor :selector, :distributer, :archiver, :filename
+    attr_accessor :distributer, :filename
     attr_reader :log_reader
-    def initialize(filename, backupdir, worker, num_threads = 10)
+    def initialize(filename, worker, num_threads = 10)
       self.filename = filename
-      self.selector = RotatingLog.new
       self.distributer = SimpleThreadPool.new(worker, num_threads)
-      self.archiver = DateDir.new(backupdir)
     end
     
+    # selector/archiver seem to be strongly connected.  it's possible it
+    # needs to be moved into LogReader
     def process
-      log_file = selector.file_to_process(filename)
+      pre_process
       @log_reader = LogReader.new(log_file) do |line|
         self.distributer.process(line)
       end
       @log_reader.run
       self.distributer.join
-      self.archiver.backup(log_file)
-    end    
+      post_process
+    end
+    
+    def log_file
+      self.filename
+    end
+    
+    #predefined hooks
+    def pre_process  
+    end
+    
+    #predefined hooks
+    def post_process
+    end
   end
 end
