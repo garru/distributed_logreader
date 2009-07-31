@@ -9,7 +9,8 @@ module DLogReader
     end
   
     def backup(file)
-      mv(file, backup_dir)
+      mv(file, backup_dir) unless base_backup_dir.nil?
+        
     end
 
   protected

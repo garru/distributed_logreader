@@ -10,6 +10,7 @@ module DLogReader
     end
   
     def run
+      raise IOError.new("no file given") if filename.nil?
       raise IOError.new("File not readable") unless File.readable?(filename)
       f = File.open(filename, "r+")
       load_saved_state(f)

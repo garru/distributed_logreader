@@ -7,10 +7,10 @@ module DLogReader
   class DistributedLogReader
     attr_accessor :selector, :distributer, :archiver, :filename
     attr_reader :log_reader
-    def initialize(filename, backupdir, worker)
+    def initialize(filename, backupdir, worker, num_threads = 10)
       self.filename = filename
       self.selector = RotatingLog.new
-      self.distributer = SimpleThreadPool.new(worker)
+      self.distributer = SimpleThreadPool.new(worker, num_threads)
       self.archiver = DateDir.new(backupdir)
     end
     
