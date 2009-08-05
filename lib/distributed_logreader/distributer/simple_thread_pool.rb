@@ -28,7 +28,11 @@ protected
       Thread.new do
         loop do
           line = self.queue.pop
-          self.worker.call(line)
+          begin
+            self.worker.call(line)
+          rescue Exception => e
+            $dlog_logger.warn("Exception in processing thread #{line} -- #{e.message}")
+          end
         end
       end
     end
