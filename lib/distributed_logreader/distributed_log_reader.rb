@@ -16,8 +16,9 @@ module DLogReader
     # needs to be moved into LogReader
     def process
       pre_process
-      lines_processed = 0
+
       $dlog_logger.info("Started #{log_file}:")
+        lines_processed = 0
       @log_reader = LogReader.new(log_file) do |line|
         begin
           self.distributer.process(line)
@@ -26,9 +27,9 @@ module DLogReader
         end
         lines_processed += 1
       end
-      $dlog_logger.info("Finished #{log_file}: Processed (#{lines_processed}) lines")
       @log_reader.run
       self.distributer.join
+      $dlog_logger.info("Finished #{log_file}: Processed (#{lines_processed}) lines")
       post_process
     end
     
