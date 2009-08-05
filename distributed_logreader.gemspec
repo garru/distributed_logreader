@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{distributed_logreader}
-  s.version = "0.4.0"
+  s.version = "0.5.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Gary Tsang"]
@@ -24,6 +24,7 @@ Gem::Specification.new do |s|
      "lib/distributed_logreader/archiver/date_dir.rb",
      "lib/distributed_logreader/distributed_log_reader.rb",
      "lib/distributed_logreader/distributed_log_reader/rotater_reader.rb",
+     "lib/distributed_logreader/distributed_log_reader/scribe_reader.rb",
      "lib/distributed_logreader/distributer.rb",
      "lib/distributed_logreader/distributer/simple_thread_pool.rb",
      "lib/distributed_logreader/log_reader.rb",
@@ -33,6 +34,7 @@ Gem::Specification.new do |s|
      "spec/archiver/date_dir_spec.rb",
      "spec/archiver_spec.rb",
      "spec/distributed_log_reader/rotater_reader_spec.rb",
+     "spec/distributed_log_reader/scribe_reader_spec.rb",
      "spec/distributed_log_reader_spec.rb",
      "spec/distributer/simple_thread_pool_spec.rb",
      "spec/distributer_spec.rb",
@@ -44,6 +46,8 @@ Gem::Specification.new do |s|
      "spec/fixtures/symlink/test",
      "spec/fixtures/symlink/test_older_sym",
      "spec/fixtures/test_file",
+     "spec/fixtures/virality_metrics/test",
+     "spec/fixtures/virality_metrics/virality_metrics_current",
      "spec/log_reader_spec.rb",
      "spec/selector/rotating_log_spec.rb",
      "spec/selector_spec.rb",
@@ -59,6 +63,7 @@ Gem::Specification.new do |s|
     "spec/archiver/date_dir_spec.rb",
      "spec/archiver_spec.rb",
      "spec/distributed_log_reader/rotater_reader_spec.rb",
+     "spec/distributed_log_reader/scribe_reader_spec.rb",
      "spec/distributed_log_reader_spec.rb",
      "spec/distributer/simple_thread_pool_spec.rb",
      "spec/distributer_spec.rb",
