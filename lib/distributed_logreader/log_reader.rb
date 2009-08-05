@@ -15,10 +15,12 @@ module DLogReader
       f = File.open(filename, "r+")
       load_saved_state(f)
       raise IOError.new("File is locked") unless f.flock(File::LOCK_EX | File::LOCK_NB)
-      f.each_line do |line|
-        @b.call(line)
+      unless f.eof?
+        f.each_line do |line|
+          @b.call(line)
+        end
+        save_state(f)
       end
-      save_state(f)
       f.flock(File::LOCK_UN)
     end
     

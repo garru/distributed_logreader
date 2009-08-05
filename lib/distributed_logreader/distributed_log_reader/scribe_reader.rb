@@ -5,7 +5,7 @@ module DLogReader
     def initialize(filename, backupdir, worker, num_threads = 10)
       super(filename, worker, num_threads)
       self.selector = RotatingLog.new
-      self.selector.ignore_conditions << lambda{|x| x.match(/scribe_stats/)}
+      self.selector.ignore_conditions << lambda{|x| !x.match(/scribe_stats/).nil?}
       self.archiver = DateDir.new(backupdir)
     end
         
