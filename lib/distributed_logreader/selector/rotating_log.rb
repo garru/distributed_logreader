@@ -15,7 +15,7 @@ module DLogReader
       oldest_logfile(directory, basename)
     end
 
-  protected
+protected
 
     def oldest_logfile(directory, basename)
       file_list = Dir[File.join(directory, "#{basename}*")]

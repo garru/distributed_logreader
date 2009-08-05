@@ -16,9 +16,17 @@ module DLogReader
     # needs to be moved into LogReader
     def process
       pre_process
+      lines_processed = 0
+      $dlog_logger.info("Started #{log_file}:")
       @log_reader = LogReader.new(log_file) do |line|
-        self.distributer.process(line)
+        begin
+          self.distributer.process(line)
+        rescue Exception => e
+          $dlog_logger.warn("Exception in processing thread #{log_file}:#{log_file.pos} -- #{line} -- #{e.message}")
+        end
+        lines_processed += 1
       end
+      $dlog_logger.info("Finished #{log_file}: Processed (#{lines_processed}) lines")
       @log_reader.run
       self.distributer.join
       post_process
