@@ -15,7 +15,7 @@ module DLogReader
     
     def process(line)
       while(queue.size > self.max_queue_size)
-        sleep(0.1)
+        sleep(0.01)
       end
       self.queue << line
     end

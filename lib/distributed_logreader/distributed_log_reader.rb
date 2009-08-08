@@ -1,4 +1,5 @@
 require File.join(File.dirname(__FILE__), 'distributer', 'simple_thread_pool')
+require File.join(File.dirname(__FILE__), 'distributer', 'simple_forked_process')
 require File.join(File.dirname(__FILE__), 'selector', 'rotating_log')
 require File.join(File.dirname(__FILE__), 'archiver', 'date_dir')
 require File.join(File.dirname(__FILE__), 'log_reader')
@@ -7,9 +8,10 @@ module DLogReader
   class DistributedLogReader
     attr_accessor :distributer, :filename
     attr_reader :log_reader
-    def initialize(filename, worker, num_threads = 10)
+    def initialize(filename, worker, num_threads = 100)
       self.filename = filename
-      self.distributer = SimpleThreadPool.new(worker, num_threads)
+      # self.distributer = SimpleForked.new(worker, 5, num_threads)
+      self.distributer = SimpleThreadPool.new(worker, 500)
     end
     
     # selector/archiver seem to be strongly connected.  it's possible it
@@ -34,7 +36,7 @@ module DLogReader
     end
     
     #predefined hooks
-    def pre_process  
+    def pre_process
     end
     
     #predefined hooks
