@@ -3,12 +3,11 @@ require File.join(File.dirname(__FILE__), 'pandemic_processor')
 require File.join(File.dirname(__FILE__), 'mutex_counter')
 module DLogReader
   class SimpleForked
-    attr_accessor :num_threads_per_process, :worker, :thread_pool, :queue, :max_queue_size, :processors
+    attr_accessor :num_threads_per_process, :worker, :thread_pool, :queue, :processors
     def initialize(worker, num_processes = 3, num_threads_per_process = 10)
       self.worker = worker
-      self.num_threads_per_process = num_threads_per_process
+      self.num_threads_per_process = (num_threads_per_process || 10)
       self.queue = Queue.new
-      self.max_queue_size = 100
       self.processors = []
       num_processes.times do |x|
         $dlog_logger.debug("Forking #{x} process")
@@ -17,9 +16,6 @@ module DLogReader
     end
     
     def process(line)
-      while(queue.size > self.max_queue_size)
-        sleep(0.1)
-      end
       self.queue << line
     end
     

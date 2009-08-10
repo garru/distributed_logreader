@@ -15,6 +15,7 @@ module DLogReader
         @in = read_from_child
         @max_queue_size = 100
         @counter = MutexCounter.new
+        @job_mutex = Mutex.new
         wait_for_responses
       else
         $dlog_logger.debug("Forked")
@@ -43,12 +44,15 @@ module DLogReader
     def process(body)
       if parent?
         while(@counter.real_total > @max_queue_size)
+          $dlog_logger.debug("Max process queue size: #{@counter.real_total}")
           sleep(0.01)
         end
         body = (body.chomp + "\n")
-        $dlog_logger.debug("Parent: writing #{body.inspect}")
-        @out.write(body)
-        @counter.inc
+        @job_mutex.synchronize do
+          @out.write(body)
+          in_queue = @counter.inc
+          $dlog_logger.debug("Parent: writing #{body.inspect} - #{in_queue}")
+        end
       else
         $dlog_logger.debug("Child Processing #{body}")
         return @handler.call(body)
@@ -76,9 +80,11 @@ module DLogReader
       Thread.new do
         loop do
           line = @job_queue.pop
-          process(line)
-          $dlog_logger.debug("Child: Finished #{line.inspect}")
-          @response_queue << :a
+          @job_mutex.synchronize do
+            process(line)
+            @response_queue << :a
+            $dlog_logger.debug("Child: Finished #{line.inspect}")
+          end
         end
       end
     end
@@ -88,9 +94,9 @@ module DLogReader
         loop do
           ready, = IO.select([@in], nil, nil)
           if ready
-            $dlog_logger.debug("Parent: Reading Response")  
             @in.readchar
-            @counter.decr
+            in_queue = @counter.decr
+            $dlog_logger.debug("Parent: Reading Response #{in_queue}")
           end
         end
       end

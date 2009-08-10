@@ -10,8 +10,8 @@ module DLogReader
     attr_reader :log_reader
     def initialize(filename, worker, num_threads = 100)
       self.filename = filename
-      self.distributer = SimpleForked.new(worker, 5, num_threads)
-      # self.distributer = SimpleThreadPool.new(worker, 500)
+      # self.distributer = SimpleForked.new(worker, 5, num_threads)
+      self.distributer = SimpleThreadPool.new(worker, num_threads)
     end
     
     # selector/archiver seem to be strongly connected.  it's possible it
