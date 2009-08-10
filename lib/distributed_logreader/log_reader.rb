@@ -10,11 +10,11 @@ module DLogReader
     end
   
     def run
-      raise IOError.new("no file given") if filename.nil?
+      # raise IOError.new("no file given") if filename.nil?
       raise IOError.new("File not readable") unless File.readable?(filename)
       f = File.open(filename, "r+")
       load_saved_state(f)
-      raise IOError.new("File is locked") unless f.flock(File::LOCK_EX | File::LOCK_NB)
+      # raise IOError.new("File is locked") unless f.flock(File::LOCK_EX | File::LOCK_NB)
       unless f.eof?
         line_count = 0
         f.each_line do |line|
@@ -27,7 +27,7 @@ module DLogReader
         end
         save_state(f)
       end
-      f.flock(File::LOCK_UN)
+      # f.flock(File::LOCK_UN)
     end
     
     def statefile
