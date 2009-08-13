@@ -1,9 +1,9 @@
 module DLogReader
   class ScribeReader
-    attr_accessor :selector, :archiver
+    attr_accessor :selector, :archiver, :filename
     attr_reader :log_reader
     def initialize(filename, backupdir, worker, num_threads = 10)
-      super(filename, worker, num_threads)
+      self.filename = filename
       self.selector = RotatingLog.new
       self.selector.ignore_conditions << lambda{|x| !x.match(/scribe_stats/).nil?}
       @worker = worker
