@@ -2,11 +2,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{distributed_logreader}
-  s.version = "0.7.1"
+  s.version = "0.8.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Gary Tsang"]
-  s.date = %q{2009-08-10}
+  s.date = %q{2009-08-12}
   s.email = %q{gary@garru.com}
   s.extra_rdoc_files = [
     "LICENSE",
