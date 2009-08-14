@@ -14,7 +14,11 @@ module DLogReader
       $dlog_logger.info("Started  #{log_file}:")
       lines_processed = 0
       @log_reader = LogReader.new(log_file) do |line|
-        @worker.call(line)
+        begin
+          @worker.call(line)
+        rescue Exception => e
+          $dlogger.warn("Exception thrown in worker #{e.message}")
+        end
         lines_processed += 1
       end
       @log_reader.run
