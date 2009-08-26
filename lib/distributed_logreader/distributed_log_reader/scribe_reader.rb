@@ -17,7 +17,7 @@ module DLogReader
         begin
           @worker.call(line)
         rescue Exception => e
-          $dlogger.warn("Exception thrown in worker #{e.message}")
+          $dlog_logger.warn("Exception thrown in worker #{e.message}")
         end
         lines_processed += 1
       end
