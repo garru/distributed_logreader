@@ -44,7 +44,7 @@ module DLogReader
       directory = File.dirname(log_file)
       basename = File.basename(directory)
       current_file = Dir[File.join(directory, "*")].detect{|x| x.match(/current/)}
-      File.exists?(current_file) && File.identical?(current_file, log_file) 
+      !current_file.nil? && File.exists?(current_file) && File.identical?(current_file, log_file) 
     end
   end
 end
