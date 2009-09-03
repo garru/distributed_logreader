@@ -16,12 +16,15 @@ module DLogReader
       load_saved_state(f)
       # raise IOError.new("File is locked") unless f.flock(File::LOCK_EX | File::LOCK_NB)
       unless f.eof?
+        last_report = Time.now
         line_count = 0
         f.each_line do |line|
           @b.call(line)
           line_count += 1
           if (line_count % 100 == 0)
-            $dlog_logger.info( "#{Time.now.to_s} #{filename}: Processed (#{line_count}) lines")
+            time_passed = Time.now - last_report
+            $dlog_logger.info( "#{Time.now.to_s} #{filename}: Processed (#{line_count}) lines in #{time_passed}s [#{(line_count.to_f / time_passed.to_f).to_i} lines/s]")
+            last_report = Time.now
             save_state(f) 
           end
         end
