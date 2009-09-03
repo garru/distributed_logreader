@@ -9,8 +9,7 @@ module DLogReader
     end
   
     def archive(file)
-      mv(file, backup_dir) unless base_backup_dir.nil?
-        
+      mv(file, backup_dir) unless base_backup_dir.nil? 
     end
 
   protected
