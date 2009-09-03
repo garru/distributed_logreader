@@ -23,7 +23,7 @@ module DLogReader
           line_count += 1
           if (line_count % 100 == 0)
             time_passed = Time.now - last_report
-            $dlog_logger.info( "#{Time.now.to_s} #{filename}: Processed (#{line_count}) lines in #{time_passed}s [#{(line_count.to_f / time_passed.to_f).to_i} lines/s]")
+            $dlog_logger.info( "#{Time.now.to_s} #{filename}: Processed (#{line_count}) lines [#{(100.0 / time_passed.to_f).to_i} lines/s]")
             last_report = Time.now
             save_state(f) 
           end
