@@ -5,7 +5,7 @@ require 'fileutils'
 describe "DLogReader::LogReader" do
   before(:all) do
     test_file = File.join(File.dirname(__FILE__), 'fixtures', 'test_file')
-    FileUtils.mkdir(File.join(File.dirname(__FILE__), 'fixtures', 'logreading'))
+    FileUtils.mkdir(File.join(File.dirname(__FILE__), 'fixtures', 'logreading')) rescue nil
     @test_cp = File.join(File.dirname(__FILE__), 'fixtures', 'logreading', 'test')
     FileUtils.cp(test_file, @test_cp)
     test_fh = File.open(test_file)

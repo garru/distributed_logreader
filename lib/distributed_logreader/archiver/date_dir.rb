@@ -9,7 +9,11 @@ module DLogReader
     end
   
     def archive(file)
-      mv(file, backup_dir) unless base_backup_dir.nil? 
+      unless base_backup_dir.nil?
+        backup_filename = backup_dir
+        mv(file, backup_dir)
+        `bzip2 #{File.join(backup_dir, file.split('/').last)}`
+      end
     end
 
   protected
