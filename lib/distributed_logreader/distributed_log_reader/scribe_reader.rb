@@ -37,8 +37,10 @@ module DLogReader
     end
     
     def post_process
-      self.archiver.archive(log_file) unless current?
-      File.delete(@log_reader.statefile) rescue nil
+      unless current?
+        self.archiver.archive(log_file)
+        File.delete(@log_reader.statefile) rescue nil
+      end
     end
     
     def current?
